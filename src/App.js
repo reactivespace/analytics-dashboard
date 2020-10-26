@@ -5,25 +5,13 @@ function App() {
   const [temp, setTemp] = useState(null);
   const [pressure, setPressure] = useState(null);
   const [humidity, setHumidity] = useState(null);
-  const [tempSub, setTempSub] = useState(null);
-  const [pressureSub, setPressureSub] = useState(null);
-  const [humiditySub, setHumiditySub] = useState(null);
-
   useEffect(() => {
-    let tempSubscriber = service.observable.getTemperature().subscribe(data => setTemp(data))
-    setTempSub(tempSubscriber)
+    service.observable.getTemperature().subscribe(data => setTemp(data))
     service.observable.emitTemp();
-    let pressureSubscriber = service.observable.getPressure().subscribe(data => setPressure(data))
-    setPressureSub(pressureSubscriber)
+    service.observable.getPressure().subscribe(data => setPressure(data))
     service.observable.emitPressure();
-    let humiditySubscriber = service.observable.getHumidity().subscribe(data => setHumidity(data))
-    setHumiditySub(humiditySubscriber)
+    service.observable.getHumidity().subscribe(data => setHumidity(data))
     service.observable.emitHumidity();
-    return () => {
-      tempSub.unsubscribe()
-      pressureSub.unsubscribe()
-      humiditySub.unsubscribe()
-    }
   })
   return (
     temp && pressure && humidity &&
